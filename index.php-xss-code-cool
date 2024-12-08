@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, #1cb5e0, #000046);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            color: #fff;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .comment-form {
+            background: #444;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .comment-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .comment-form input, .comment-form textarea, .comment-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        .comment-form button {
+            background-color: #1cb5e0;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .comment-form button:hover {
+            background-color: #000046;
+        }
+        .comments {
+            background: #333;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .comment {
+            background: #555;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cool Website</h1>
+    </header>
+    <div class="container">
+        <div class="comment-form">
+            <form action="" method="post">
+                <label for="username">Your Name:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your name" required>
+                <label for="comment">Your Comment:</label>
+                <textarea id="comment" name="comment" rows="4" placeholder="Write your comment here" required></textarea>
+                <button type="submit">Post Comment</button>
+            </form>
+        </div>
+        <div class="comments">
+            <h2>Comments</h2>
+            <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Vulnerable code: directly displaying user input without sanitization
+                $username = $_POST['username'];
+                $comment = $_POST['comment'];
+
+                echo "<div class='comment'>";
+                echo "<strong>" . $username . "</strong><br>";
+                echo $comment; // User input displayed directly here (XSS vulnerability)
+                echo "</div>";
+            }
+            ?>
+        </div>
+    </div>
+</body>
+</html>
+
